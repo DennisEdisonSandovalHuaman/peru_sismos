@@ -28,9 +28,16 @@ if uploaded_file is not None:
     df_filtered['HORA'] = pd.to_datetime(df['HORA_UTC'], format='%H:%M:%S').dt.time
     df_filtered['HORA'] = df_filtered['HORA'].apply(lambda x: x.hour)
 
-    # df_filtered['HORA_UTC'] = df_filtered['HORA_UTC'].date.hour
+    # Convertir la columna 'HORA' a tipo int de Python
+    df_filtered['HORA'] = df_filtered['HORA'].apply(lambda x: int(x))
 
-    selected_hour_range = st.slider('Filtrar por hora', min_value=df_filtered['HORA'].min(), max_value=df_filtered['HORA'].max(), value=(df_filtered['HORA'].min(), df_filtered['HORA'].max()))
+    # Usar el slider con los valores convertidos a int
+    selected_hour_range = st.slider(
+        'Filtrar por hora',
+        min_value=int(df_filtered['HORA'].min()),  # Asegurarse de que sea un entero de Python
+        max_value=int(df_filtered['HORA'].max()),  # Asegurarse de que sea un entero de Python
+        value=(int(df_filtered['HORA'].min()), int(df_filtered['HORA'].max()))  # Asegurarse de que sea un entero de Python
+    )
 
     # Filtrar el DataFrame según el rango de horas
     df_filtered = df_filtered[(df_filtered['HORA'] >= selected_hour_range[0]) & (df_filtered['HORA'] <= selected_hour_range[1])]
