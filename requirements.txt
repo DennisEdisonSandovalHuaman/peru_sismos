@@ -7,4 +7,4 @@ numpy>=1.24.0
 setuptools>=58.0.0
 wheel
 cython
-pillow==8.0.1
+Pillow --only-binary :all:
